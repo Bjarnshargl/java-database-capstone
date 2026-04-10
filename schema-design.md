@@ -66,5 +66,5 @@ Commit and push your file to GitHub.
   "submittedAt": "2024-06-06T14:23:00Z"
 }  
 ```
-(Comment: There's no patient id, because the patient should stay anonymous)
+(Comment: There's no patient id, because the patient should stay anonymous, prescriptions, feedback, logs, or messages should be stored in MongoDB too.)
 
