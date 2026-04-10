@@ -51,6 +51,23 @@ Commit and push your file to GitHub.
 
 ## MongoDB Collection Design
 
+### Collection: prescriptions
+```json
+{
+  "_id": "ObjectId('64abc123456')",
+  "patientName": "John Smith",
+  "appointmentId": 51,
+  "medication": "Paracetamol",
+  "dosage": "500mg",
+  "doctorNotes": "Take 1 tablet every 6 hours.",
+  "refillCount": 2,
+  "pharmacy": {
+    "name": "Walgreens SF",
+    "location": "Market Street"
+  }
+}
+```
+
 ### Collection: feedback
 ```json
 {
@@ -66,5 +83,32 @@ Commit and push your file to GitHub.
   "submittedAt": "2024-06-06T14:23:00Z"
 }  
 ```
-(Comment: There's no patient id, because the patient should stay anonymous, prescriptions, feedback, logs, or messages should be stored in MongoDB too.)
+(Comment: There's no patient id, because the patient should stay anonymous)
+
+### Collection: logs
+```json
+{  
+  "eventType": "admin_logout",  
+  "adminId": "a12345",
+  "sessionId": "sess_789abc",  
+  "logoutTime": "2024-06-06T15:42:00Z",  
+  "deviceType": "desktop",  
+  "ipAddress": "192.168.1.100",  
+  "location": "Berlin, Germany",  
+  "reason": "manual_logout"  
+}  
+```
+
+### Collection: messages
+```json
+{
+  "noteId": "note_789ghi",
+  "doctorId": "192cd3838034",
+  "patientId": "193812093fg",
+  "createdAt": "2024-06-06T16:15:00Z",
+  "noteType": "internal",
+  "noteText": "After thorough examination and diagnostics, there is no objective evidence for the patient's reported symptoms.",
+  "isConfidential": true
+}  
+```
 
