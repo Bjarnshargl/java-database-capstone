@@ -80,8 +80,6 @@ public class Patient {
     // 7. Getters and Setters:
     //    - Standard getter and setter methods are provided for all fields: id, name, email, password, phone, and address.
     //    - These methods allow access and modification of the fields of the Patient class.
-
-
     public Long getId() {
         return id;
     }

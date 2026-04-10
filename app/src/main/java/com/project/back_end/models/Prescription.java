@@ -79,6 +79,15 @@ public class Prescription {
         this.doctorNotes = doctorNotes;
     }
 
+    public Prescription(Long id, String patientName, Long appointmentId, Long medication, Long dosage) {
+        this.id = id;
+        this.patientName = patientName;
+        this.appointmentId = appointmentId;
+        this.medication = medication;
+        this.dosage = dosage;
+        // no doctorNotes because they are optional
+    }
+
     // 8. Getters and Setters:
     //    - Standard getter and setter methods are provided for all fields: id, patientName, medication, dosage, doctorNotes, and appointmentId.
     //    - These methods allow access and modification of the fields of the Prescription class.
