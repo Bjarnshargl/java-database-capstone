@@ -1,20 +1,119 @@
-/* this is the style sheet file for index.htlm  */
+/* this is the style sheet file for index.html  */
 
-/* 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.wrapper {
+    min-height: 100vh; /* 100% View Height */
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    padding-inline: 40px;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../images/background/clinic.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-align: center;
+}
+
+h2 {
+    font-size: 48px;
+    margin-bottom: 50px;
+    color: #003e3e;
+    font-weight: bold;
+    font-family: 'Alegreya', 'Roboto', sans-serif;
+}
+
+button, #closeModal {
+    font-family: 'Alegreya', 'Roboto', sans-serif;
+    background-color: #015c5d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover, #closeModal:hover {
+    background-color: #A62B1F;
+}
+
+.dashboard-btn, .input-field, .select-dropdown, .checkbox-group  {
+    font-family: 'Alegreya', 'Roboto', sans-serif;
+    background-color: #015c5d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dashboard-btn:hover, .input-field:hover, .select-dropdown:hover, .checkbox-group:hover  {
+    background-color: #003e3e;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+    background-color: #015c5d;
+}
+
+.header-logo {
+    font-family: 'Alegreya', 'Roboto', sans-serif;
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+}
+
+.header-nav {
+    display: flex;
+    gap: 20px;
+}
+
+
+/*
 **Global Reset (`*`)**
 
 * Remove all default margin and padding.
 * Use `border-box` for sizing to include padding and border in element size.
+Done
 
 **Base (`html, body`)**
 
 * Set height to 100% for full viewport layout.
 * Use the `'Roboto'` sans-serif font for modern, clean typography.
+Done
 
 **Layout Wrapper (`.wrapper`)**
 
 * Use a vertical flexbox layout.
 * Ensure the wrapper covers at least the full height of the screen (`min-height: 100vh`).
+Done
 
 **Heading (`h2`)**
 
@@ -22,6 +121,7 @@
 * Add a bottom margin of `50px` for spacing.
 * Use a dark teal color (`#003e3e`).
 * Make the font bold and use a blended font stack (`'Alegreya', 'Roboto', sans-serif`) for elegant styling.
+Done
 
 **Main Section (`.main-content`)**
 
@@ -37,6 +137,8 @@
   * no repeat
   * `fixed` attachment to keep image still during scroll
 
+  Done
+
 **Buttons (`button`)**
 
 * Style with a teal green background (`#015c5d`) and white text.
@@ -46,8 +148,12 @@
 * Enable pointer cursor and readable font size (`16px`).
 * On hover, change background color to bold red (`#A62B1F`).
 
+Done
+
 **Dashboard Buttons (`.dashboard-btn`)**
 
 * Use the same base green background (`#015c5d`) as the default button.
 * On hover, darken the background to deep teal (`#003e3e`) for visual feedback.
+
+Done
  */
