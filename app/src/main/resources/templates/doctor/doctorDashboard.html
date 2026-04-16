@@ -1,4 +1,78 @@
 <!-- doctorDashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Dashboard</title>
+
+    <!-- Favicon: -->
+    <link rel="icon" type="image/png" th:href="@{/assets/images/logo/logo.png}" />
+
+    <!-- External CSS: -->
+    <link rel="stylesheet" href="/assets/css/adminDashboard.css">
+    <link rel="stylesheet" href="/assets/css/doctorDashboard.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- JavaScript: -->
+    <!-- Utility Files: -->
+    <script th:src="@{/js/render.js}" defer></script>
+    <script th:src="@{/js/util.js}" defer></script>
+
+    <!-- Components: -->
+    <script th:src="@{/js/header.js}" defer></script>
+    <script th:src="@{/js/footer.js}" defer></script>
+    <script th:src="@{/js/patientRows.js}" defer></script>
+
+    <!-- Services and Main Logic: -->
+    <script th:src="@{/js/patientServices.js}" defer></script>
+    <script th:src="@{/js/doctorDashboard.js}" defer></script>
+</head>
+
+<body onload="renderContent()">
+<div class="container">
+    <div class="wrapper">
+        <div id="header"></div>
+        <main class="main-content">
+            <h2>Patient <span>Appointment</span></h2>
+            <input type="text" id="searchBar" class="searchBar" placeholder="Search Bar for custom output" />
+            <!--
+            16. Add Filter Controls
+                * Include a filter section:
+                      - A button (`#todayButton`) to view today's appointments.
+                      - A date picker (`#datePicker`) to select specific dates.
+            -->
+            <div class="filter-wrapper">
+                <button id="todayButton" type="button">Today</button>
+                <label for="datePicker">Date:</label>
+                <input type="date" id="datePicker">
+            </div>
+
+            <!--
+            17. Add a Patient Table
+                * Display a table to list patient data:
+                      - Headers: Patient ID, Name, Phone No., Email, and Prescription.
+                      - Body: `<tbody id="patientTableBody"></tbody>` for dynamic content insertion.
+            -->
+            <table id="patientTable">
+                <thead class="table-header">
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Phone No.</th>
+                    <th>Email</th>
+                    <th>Prescription</th>
+                </tr>
+                </thead>
+                <tbody id="patientTableBody">
+                <!-- rows will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </main>
+        <div id="footer"></div>
+    </div>
+</div>
+</body>
+<!-- doctorDashboard.html -->
 
 <!-- 
 Step-by-Step Explanation of `doctorDashboard.html`

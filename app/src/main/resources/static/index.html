@@ -1,13 +1,14 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Smart CMS - Select Role</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="./assets/images/logo/logo.png" type="image/x-icon"/>
-    <!-- External CSS -->
+    <link rel="icon" type="image/svg+xml" href="/assets/images/logo/logo.png" />
+
     <link rel="stylesheet" href="./assets/css/index.css">
     <link rel="stylesheet" href="./assets/css/style.css">
 
@@ -17,7 +18,8 @@
     <script src="./js/components/header.js" defer></script>
     <script src="./js/components/footer.js" defer></script>
 </head>
-<body>
+
+<body onload="renderContent()">
 <div class="container">
     <div class="wrapper">
         <div id="header"></div>
@@ -31,8 +33,10 @@
 
         <!-- Modal (hidden)-->
         <div id="modal" class="modal">
-            <span id="closeModal" class="close">&times;</span>
-            <div id="modal-body"></div>
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <div id="modal-body"></div>
+            </div>
         </div>
 
         <div id="footer"></div>

@@ -1,5 +1,62 @@
 /*this is the style sheet for the adminDashboard. */
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; font-family: Arial, sans-serif; }
+
+.wrapper, .main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../images/background/clinic.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-inline: 10px;
+}
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    padding-inline: 10px;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content button:focus,
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    outline: 2px solid #0078d7;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px #cce4ff;
+    transition: box-shadow 0.2s;
+}
+
+#content {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    #content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        align-items: stretch;
+    }
+}
+
 /* 
 Global Reset (`*`)
 
@@ -10,6 +67,8 @@ Global Reset (`*`)
   * `padding: 0` — removes default inner spacing.
   * `box-sizing: border-box` — ensures padding and borders are included within the total width/height of elements.
 
+  Done
+
 Base HTML & Body (`html, body`)
 
 * Purpose: Establish a full-height layout and apply a standard font across the page.
@@ -17,6 +76,8 @@ Base HTML & Body (`html, body`)
 
   * `height: 100%` — allows containers to stretch to the full viewport height.
   * `font-family: Arial, sans-serif` — applies a clean, readable sans-serif font.
+
+  Done
 
 Main Layout Wrapper (`.wrapper`)
 
@@ -26,6 +87,8 @@ Main Layout Wrapper (`.wrapper`)
   * `display: flex` — enables flexbox for layout control.
   * `flex-direction: column` — stacks children vertically.
   * `min-height: 100vh` — ensures the wrapper always covers full screen height.
+
+  Done
 
 Section Heading (`h2`)
 
