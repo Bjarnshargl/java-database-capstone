@@ -7,12 +7,58 @@ html, body { height: 100%; font-family: Arial, sans-serif; }
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url('../images/background/clinic.png');
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-image: url("../images/defineRole/index.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     padding-inline: 10px;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    color: #003e3e;
+    font-family: 'Alegreya', 'Roboto', sans-serif;
+}
+
+.button {
+    background-color: #A62B1F;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    width: 200px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: #A62B1F;
+}
+
+.adminBtn {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+    width: 110px;
+    padding: 10px 0;
+    border: none;
+    cursor: pointer;
+}
+
+.adminBtn:hover {
+    color: #A62B1F;
 }
 
 .modal {
@@ -21,6 +67,13 @@ html, body { height: 100%; font-family: Arial, sans-serif; }
     justify-content: center;
     position: fixed;
     padding-inline: 10px;
+}
+
+.modal.focus {
+    box-shadow: 0 0 0 4px #015c5d33, 0 4px 32px rgba(1, 92, 93, 0.15);
+    outline: 2px solid #015c5d66;
+    outline-offset: 2px;
+    transition: box-shadow 0.2s, outline 0.2s;
 }
 
 .modal.active {
@@ -100,6 +153,8 @@ Section Heading (`h2`)
   * `margin-bottom: 50px` — creates space below the heading.
   * `color: #003e3e` — uses a strong teal for visual anchoring.
 
+  Done
+
 Main Content Section (`.main-content`)
 
 * Purpose: Layout the main content with padding and a background image.
@@ -114,6 +169,8 @@ Main Content Section (`.main-content`)
   * `background-position: center` — centers the image.
   * `background-repeat: no-repeat` — avoids tiling the image.
   * `background-attachment: fixed` — fixes the image while scrolling.
+
+  Done
 
 Primary Button (`button`)
 
@@ -131,9 +188,13 @@ Primary Button (`button`)
   * `cursor: pointer` — shows a hand icon on hover.
   * `font-size: 16px` — makes the text readable.
 
+  Done
+
 * On Hover:
 
   * Retains the same red background to maintain branding.
+
+  Done
 
 Admin Button (`.adminBtn`)
 
@@ -149,9 +210,12 @@ Admin Button (`.adminBtn`)
   * `border: none` — clean look.
   * `cursor: pointer` — indicates it's clickable.
 
+  Done
+
 * On Hover**:
 
    Changes text color to `#A62B1F` for brand consistency while keeping the background same.
 
+   Done
 
 */
