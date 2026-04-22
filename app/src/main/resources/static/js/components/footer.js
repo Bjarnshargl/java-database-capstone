@@ -1,3 +1,13 @@
+function renderFooter() {
+    const footer = document.getElementById("footer");
+    footer.innerHTML = `
+    <footer class="footer">
+    TODO
+    </footer>
+    `;
+
+}
+
 /*
   Function to render the footer content into the page
       Select the footer element from the DOM
