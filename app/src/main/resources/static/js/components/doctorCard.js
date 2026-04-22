@@ -50,11 +50,19 @@ export function createDoctorCard(doctor) {
             // DONE Add click handler for delete button
             // Get the admin token from localStorage
             const token = localStorage.getItem("token");
+            try {
+                const result = await deleteDoctor(token, doctor.id);
+                alert(result.message || "Doctor deleted successfully.");
+                card.remove();
+            } catch (error) {
+                alert(error.message || "Delete failed.");
+            }
             // Call API to delete the doctor
             deleteDoctor(token);
             // Show result and remove card if successful
             // Add delete button to actions container
         });
+        card.appendChild(removeBtn);
     }
 
     else if (role === "patient") {
