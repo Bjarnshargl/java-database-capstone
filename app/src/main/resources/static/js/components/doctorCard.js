@@ -1,13 +1,13 @@
-
 import { showBookingOverlay } from './services/loggedPatient.js';
 import { deleteDoctor } from './services/doctorServices.js';
 import { getPatientData } from './services/patientServices.js';
 
 export function createDoctorCard(doctor) {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("userRole");
+
     const card = document.createElement("div");
     card.classList.add("doctor-card");
-
-    const role = localStorage.getItem("userRole");
 
     const infoDiv = document.createElement("div");
     infoDiv.classList.add("doctor-info");
@@ -26,7 +26,7 @@ export function createDoctorCard(doctor) {
 
     // Doctor availability
     const availability = document.createElement("h3");
-    availability.textContent = doctor.join(availableTimes);
+    availability.textContent = doctor.availableTimes.join(", ");
 
     infoDiv.appendChild(name);
     infoDiv.appendChild(specialization);
@@ -39,17 +39,8 @@ export function createDoctorCard(doctor) {
     if (role === "admin") {
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "Delete";
-
         removeBtn.addEventListener("click", async () => {
-            // 1. Confirm deletion
-            // 2. Get token from localStorage
-            // 3. Call API to delete
-            // 4. On success: remove the card from the DOM
-            // === ADMIN ROLE ACTIONS ===
-            // DONE Create a delete button
-            // DONE Add click handler for delete button
-            // Get the admin token from localStorage
-            const token = localStorage.getItem("token");
+            if (!confirm("Do you really want to delete this doctor?")) return;
             try {
                 const result = await deleteDoctor(token, doctor.id);
                 alert(result.message || "Doctor deleted successfully.");
@@ -57,30 +48,25 @@ export function createDoctorCard(doctor) {
             } catch (error) {
                 alert(error.message || "Delete failed.");
             }
-            // Call API to delete the doctor
-            deleteDoctor(token);
-            // Show result and remove card if successful
-            // Add delete button to actions container
         });
-        card.appendChild(removeBtn);
-    }
+        actionsDiv.appendChild(removeBtn);
 
-    else if (role === "patient") {
+    } else if (role === "patient") {
         const bookNow = document.createElement("button");
         bookNow.textContent = "Book Now";
         bookNow.addEventListener("click", () => {
             alert("Patient needs to login first.");
         });
-    }
+        actionsDiv.appendChild(bookNow);
 
-    else if (role === "loggedPatient") {
+    } else if (role === "loggedPatient") {
         const bookNow = document.createElement("button");
         bookNow.textContent = "Book Now";
         bookNow.addEventListener("click", async (e) => {
-            const token = localStorage.getItem("token");
             const patientData = await getPatientData(token);
             showBookingOverlay(e, doctor, patientData);
         });
+        actionsDiv.appendChild(bookNow);
     }
 
     card.appendChild(infoDiv);
