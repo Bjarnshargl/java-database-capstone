@@ -34,12 +34,11 @@ export async function deleteDoctor(id, token) {
     // Catches and handles any errors to prevent frontend crashes.
     try {
         // Constructs the full endpoint URL using the ID and token.
-        const response = await fetch(`${DOCTOR_API}/${id}`, {
+        const response = await fetch(`${DOCTOR_API}/${id}/${token}`, {
             // Sends a DELETE request to that endpoint.
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             }
         });
         const data = await response.json();
@@ -64,11 +63,10 @@ export async function saveDoctor(doctor, token) {
     try {
         // Send a POST request with headers specifying JSON data.
         // Include the doctor data in the request body (converted to JSON).
-        const response = await fetch(DOCTOR_API, {
+        const response = await fetch(`${DOCTOR_API}/${token}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(doctor)
         });
