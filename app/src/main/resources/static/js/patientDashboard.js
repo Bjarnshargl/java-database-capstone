@@ -9,6 +9,7 @@ import { patientSignup, patientLogin } from './services/patientServices.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   loadDoctorCards();
+  renderContent();
 });
 
 document.addEventListener("DOMContentLoaded", () => {

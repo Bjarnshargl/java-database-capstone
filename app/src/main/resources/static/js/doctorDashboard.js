@@ -1,3 +1,124 @@
+// Import Required Modules : At the top of the file, import:
+import { getAppointments} from "./components/appointmentRow";
+import { createPatientRow} from "./components/patientRows";
+import {openModal} from "./components/modals";
+import {getAppointmentRecord} from "./services/appointmentRecordService";
+
+// Initialize Global Variables:
+const tableBody = document.getElementById("patientTableBody");
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const dd = String(today.getDate()).padStart(2, '0');
+const selectedDate = `${yyyy}-${mm}-${dd}`;
+//const selectedDate = new Date().toDateString().split('-')[0];
+const todayButton = document.getElementById("todayButton");
+
+console.log(selectedDate); // z.B. "2024-06-09"
+const token = localStorage.getItem("token");
+const patientName = document.getElementById("patientName").value;
+
+let allAppointments = [];
+let filteredAppointments = [];
+let patientId = null;
+
+// Setup Search Bar Functionality:
+// Search and Filter Listeners
+document.getElementById("searchBar").addEventListener("input", handleFilterChange);
+document.getElementById("appointmentFilter").addEventListener("change", handleFilterChange);
+
+async function handleFilterChange() {
+    const searchBarValue = document.getElementById("searchBar").value.trim();
+    const filterValue = document.getElementById("appointmentFilter").value;
+
+    const name = searchBarValue || null;
+    const condition = filterValue === "allAppointments" ? null : filterValue || null;
+
+    try {
+        const response = await filterAppointments(condition, name, token);
+        const appointments = response?.appointments || [];
+        filteredAppointments = appointments.filter(app => app.patientId === patientId);
+
+        renderAppointments(filteredAppointments);
+    } catch (error) {
+        console.error("Failed to filter appointments:", error);
+        alert("❌ An error occurred while filtering appointments.");
+    }
+}
+
+function renderAppointments(appointments) {
+    tableBody.innerHTML = "";
+
+    const actionTh = document.querySelector("#patientTable thead tr th:last-child");
+    if (actionTh) {
+        actionTh.style.display = "table-cell"; // Always show "Actions" column
+    }
+
+    if (!appointments.length) {
+        tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No Appointments Found</td></tr>`;
+        return;
+    }
+
+    appointments.forEach(appointment => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+      <td>${appointment.patientName || "You"}</td>
+      <td>${appointment.doctorName}</td>
+      <td>${appointment.appointmentDate}</td>
+      <td>${appointment.appointmentTimeOnly}</td>
+      <td>${appointment.status == 0 ? `<img src="../assets/images/edit/edit.png" alt="Edit" class="prescription-btn" data-id="${appointment.patientId}">` : "-"}</td>
+    `;
+
+        if (appointment.status == 0) {
+            const actionBtn = tr.querySelector(".prescription-btn");
+            actionBtn?.addEventListener("click", () => redirectToUpdatePage(appointment));
+        }
+
+        tableBody.appendChild(tr);
+    });
+}
+
+// Bind Event Listeners to Filter Controls:
+document.addEventListener("DOMContentLoaded", () => {
+    const loginBtn = document.getElementById("patientLogin")
+    if (todayButton) {
+        todayButton.addEventListener("click", () => {
+            document.getElementById("datePicker").value = selectedDate;
+            loadAppointments();
+        })
+    }
+})
+
+async function loadAppointments(filter = "upcoming") {
+    const appointments = await getAppointmentRecord();
+
+    if (!appointments || appointments.length === 0) {
+        tableBody.innerHTML = `<tr><td class="noPatientRecord" colspan='5'>No appointments found.</td></tr>`;
+        return;
+    }
+
+    const today = new Date().setHours(0, 0, 0, 0);
+    let filteredAppointments = appointments;
+
+    if (filter === "upcoming") {
+        filteredAppointments = appointments.filter(app => new Date(app.date) >= today);
+    } else if (filter === "past") {
+        filteredAppointments = appointments.filter(app => new Date(app.date) < today);
+    }
+
+    if (filteredAppointments.length === 0) {
+        tableBody.innerHTML = `<tr><td class="noPatientRecord" colspan='5'>No ${filter} appointments found.</td></tr>`;
+        return;
+    }
+
+    tableBody.innerHTML = "";
+    filteredAppointments.forEach(appointment => {
+        const row = getAppointments(appointment);
+        tableBody.appendChild(row);
+    });
+}
+
+
 /*
   Import getAllAppointments to fetch appointments from the backend
   Import createPatientRow to generate a table row for each patient appointment
