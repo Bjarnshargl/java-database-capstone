@@ -1,11 +1,12 @@
 package com.project.back_end.services;
 
-public class DoctorService {
-
 // 1. **Add @Service Annotation**:
 //    - This class should be annotated with `@Service` to indicate that it is a service layer class.
 //    - The `@Service` annotation marks this class as a Spring-managed bean for business logic.
 //    - Instruction: Add `@Service` above the class declaration.
+
+
+public class DoctorService {
 
 // 2. **Constructor Injection for Dependencies**:
 //    - The `DoctorService` class depends on `DoctorRepository`, `AppointmentRepository`, and `TokenService`.

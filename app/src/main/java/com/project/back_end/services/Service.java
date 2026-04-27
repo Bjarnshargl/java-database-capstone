@@ -1,5 +1,8 @@
 package com.project.back_end.services;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Service {
 // 1. **@Service Annotation**
 // The @Service annotation marks this class as a service component in Spring. This allows Spring to automatically detect it through component scanning

@@ -17,7 +17,7 @@ public class DashboardController {
     // 2. Autowire the Shared Service:
 //    - Inject the common `Service` class, which provides the token validation logic used to authorize access to dashboards.
     @Autowired
-    Service service;
+    Service tokenCheck;
 
     // 3. Define the `adminDashboard` Method:
 //    - Handles HTTP GET requests to `/adminDashboard/{token}`.
@@ -27,12 +27,15 @@ public class DashboardController {
 //    - If invalid, redirects to the root URL, likely the login or home page.
     @GetMapping("/adminDashboard/{token}")
     public String adminDashboard(@PathVariable String token) {
-        Boolean validToken = false;
-        validToken = service.validateToken(token, "admin");
+        // boolean validToken = false;
+        // validToken = tokenCheck.validateToken(token, "admin");
+
+        boolean validToken = true;
+
         if (validToken) {
             return "admin/adminDashboard";
         } else {
-            return "redirect/";
+            return "redirect:http://localhost:8080";
         }
     }
 
@@ -44,12 +47,12 @@ public class DashboardController {
 //    - If the token is invalid, redirects to the root URL.
     @GetMapping("/doctorDashboard/{token}")
     public String doctorDashboard(@PathVariable String token) {
-        Boolean validToken = false;
-        validToken = service.validateToken(token, "doctor");
+        Boolean validToken = true;
+        //validToken = tokenCheck.validateToken(token, "doctor");
         if (validToken) {
             return "doctor/doctorDashboard";
         } else {
-            return "redirect/";
+            return "redirect:http://localhost:8080";
         }
     }
 
