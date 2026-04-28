@@ -101,7 +101,7 @@ public class AppointmentDTO {
     //    - It also calculates custom fields: 'appointmentDate', 'appointmentTimeOnly', and 'endTime' based on the 'appointmentTime' field.
     public AppointmentDTO(Long id, Long doctorId, String doctorName, Long patientId, String patientName,
                           String patientEmail, String patientPhone, String patientAddress, LocalDateTime appointmentTime,
-                          int status, LocalDate appointmentDate, LocalTime appointmentTimeOnly, LocalDateTime endTime) {
+                          int status) {
         this.id = id;
         this.doctorId = doctorId;
         this.doctorName = doctorName;
@@ -112,6 +112,8 @@ public class AppointmentDTO {
         this.patientAddress = patientAddress;
         this.appointmentTime = appointmentTime;
         this.status = status;
+
+        // This values are no direct parameters:
         this.appointmentDate = appointmentTime.toLocalDate();
         this.appointmentTimeOnly = appointmentTime.toLocalTime();
         this.endTime = appointmentTime.plusHours(1);

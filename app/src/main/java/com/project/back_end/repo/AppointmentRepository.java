@@ -1,11 +1,16 @@
 package com.project.back_end.repo;
 
 import com.project.back_end.models.Appointment;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     // 1. Extend JpaRepository:
@@ -34,36 +39,54 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Return type: List<Appointment>
     //      - Parameters: Long doctorId, String patientName, LocalDateTime start, LocalDateTime end
 
+    List<Appointment> findByDoctorIdAndPatient_NameContainingIgnoreCaseAndAppointmentTimeBetween(Long doctorId, String patientName, LocalDateTime start, LocalDateTime end);
+
     //    - **deleteAllByDoctorId**:
     //      - This method deletes all appointments associated with a particular doctor.
     //      - It is marked as @Modifying and @Transactional, which makes it a modification query, ensuring that the operation is executed within a transaction.
     //      - Return type: void
     //      - Parameters: Long doctorId
 
+    @Modifying
+    @Transactional
+    void deleteAllByDoctorId (Long doctorId);
+
     //    - **findByPatientId**:
     //      - This method retrieves all appointments for a specific patient.
     //      - Return type: List<Appointment>
     //      - Parameters: Long patientId
+
+    List<Appointment> findByPatientId (Long patientId);
 
     //    - **findByPatient_IdAndStatusOrderByAppointmentTimeAsc**:
     //      - This method retrieves all appointments for a specific patient with a given status, ordered by the appointment time.
     //      - Return type: List<Appointment>
     //      - Parameters: Long patientId, int status
 
+    List<Appointment> findByPatient_IdAndStatusOrderByAppointmentTimeAsc (Long patientId, int status);
+
     //    - **filterByDoctorNameAndPatientId**:
     //      - This method retrieves appointments based on a doctor’s name (using a LIKE query) and the patient’s ID.
     //      - Return type: List<Appointment>
     //      - Parameters: String doctorName, Long patientId
+
+    List<Appointment> filterByDoctorNameAndPatientId (String doctorName, Long patientId);
 
     //    - **filterByDoctorNameAndPatientIdAndStatus**:
     //      - This method retrieves appointments based on a doctor’s name (using a LIKE query), patient’s ID, and a specific appointment status.
     //      - Return type: List<Appointment>
     //      - Parameters: String doctorName, Long patientId, int status
 
+    List<Appointment> filterByDoctorNameAndPatientIdAndStatus (String doctorName, Long patientId, int status);
+
     //    - **updateStatus**:
     //      - This method updates the status of a specific appointment based on its ID.
     //      - Return type: void
     //      - Parameters: int status, long id
+
+    @Modifying
+    @Transactional
+    void updateStatus (int status, long id);
 
     // 3. @Modifying and @Transactional annotations:
     //    - The @Modifying annotation is used to indicate that the method performs a modification operation (like DELETE or UPDATE).
