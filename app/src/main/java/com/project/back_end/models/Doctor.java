@@ -21,7 +21,7 @@ public class Doctor {
     //      - The @Id annotation marks it as the primary key.
     //      - The @GeneratedValue(strategy = GenerationType.IDENTITY) annotation auto-generates the ID value when a new record is inserted into the database.
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto generated ID
     private Long id;
 
     // 2. 'name' field:
@@ -32,7 +32,7 @@ public class Doctor {
     //      - The @Size(min = 3, max = 100) annotation ensures that the name length is between 3 and 100 characters.
     //      - Provides validation for correct input and user experience.
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100) // Avoid silly user inputs
     private String name;
 
     // 3. 'specialty' field:
@@ -42,8 +42,8 @@ public class Doctor {
     //      - The @NotNull annotation ensures that a specialty must be provided.
     //      - The @Size(min = 3, max = 50) annotation ensures that the specialty name is between 3 and 50 characters long.
     @NotNull
-    @Size(min = 3, max = 100)
-    private String specialty;
+    @Size(min = 3, max = 100) // Avoid silly user inputs
+    private String specialty; // the specialization of the doctor
 
     // 4. 'email' field:
     //    - Type: private String
@@ -74,7 +74,7 @@ public class Doctor {
     //      - The @NotNull annotation ensures that a phone number must be provided.
     //      - The @Pattern(regexp = "^[0-9]{10}$") annotation validates that the phone number must be exactly 10 digits long.
     @NotNull
-    @Pattern(regexp = "^[0-9]{10}$")
+    @Pattern(regexp = "^[0-9]{10}$") // check valid phone number
     private String phone;
 
     // 7. 'availableTimes' field:
@@ -84,7 +84,7 @@ public class Doctor {
     //      - Each time slot is represented as a string (e.g., "09:00-10:00", "10:00-11:00").
     //      - The @ElementCollection annotation ensures that the list of time slots is stored as a separate collection in the database.
     @ElementCollection
-    private List<String> availableTimes;
+    private List<String> availableTimes; // available times per doctor
 
     // 8. Getters and Setters:
     //    - Standard getter and setter methods are provided for all fields: id, name, specialty, email, password, phone, and availableTimes.

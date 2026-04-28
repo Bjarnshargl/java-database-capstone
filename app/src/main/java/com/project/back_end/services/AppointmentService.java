@@ -169,6 +169,12 @@ public class AppointmentService {
         return appointmentsFound;
     }
 
+    ArrayList<Appointment> getAppointmentsByDoctorAndDate(Long doctorId, LocalDate date) {
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        // Logik zum Füllen der Liste
+        return appointments;
+    }
+
     // 8. **Change Status Method**:
     //    - This method updates the status of an appointment by changing its value in the database.
     //    - It should be annotated with `@Transactional` to ensure the operation is executed in a single transaction.
