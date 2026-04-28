@@ -88,58 +88,73 @@ public class Doctor {
 
     // 8. Getters and Setters:
     //    - Standard getter and setter methods are provided for all fields: id, name, specialty, email, password, phone, and availableTimes.
+
+    // Returns the ID of the doctor object
     public Long getId() {
         return id;
     }
 
+    // Sets the ID of the doctor object
     public void setId(Long id) {
         this.id = id;
     }
 
+    // Returns the name
     public String getName() {
         return name;
     }
 
+    // Sets the name
     public void setName(String name) {
         this.name = name;
     }
 
+    // Returns the specialty
     public String getSpecialty() {
         return specialty;
     }
 
+    // Sets the specialty
     public void setSpecialty(String specialty) {
         this.specialty = specialty;
     }
 
+    // Returns the email address
     public String getEmail() {
         return email;
     }
 
+    // Sets the email address
     public void setEmail(String email) {
         this.email = email;
     }
 
+    // Returns the password
     public String getPassword() {
         return password;
     }
 
+    // Sets the password
     public void setPassword(String password) {
         this.password = password;
     }
 
+    // Returns the phone number
     public String getPhone() {
         return phone;
     }
 
+    // Sets the phone number
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    // Returns the list of available times
     public List<String> getAvailableTimes() {
         return availableTimes;
     }
 
+    // Sets the list of available times
     public void setAvailableTimes(List<String> availableTimes) {
         this.availableTimes = availableTimes;
     }
