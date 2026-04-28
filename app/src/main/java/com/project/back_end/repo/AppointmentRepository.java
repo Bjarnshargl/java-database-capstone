@@ -3,7 +3,6 @@ package com.project.back_end.repo;
 import com.project.back_end.models.Appointment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +46,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Return type: void
     //      - Parameters: Long doctorId
 
-    @Modifying
     @Transactional
     void deleteAllByDoctorId (Long doctorId);
 
@@ -84,7 +82,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Return type: void
     //      - Parameters: int status, long id
 
-    @Modifying
     @Transactional
     void updateStatus (int status, long id);
 
