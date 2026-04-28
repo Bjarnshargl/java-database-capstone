@@ -3,6 +3,7 @@ package com.project.back_end.services;
 // dependencies like `AppointmentRepository`, `Service`, `TokenService`, `PatientRepository`, and `DoctorRepository`
 // Repositories:
 import com.project.back_end.models.Appointment;
+import com.project.back_end.models.Doctor;
 import com.project.back_end.repo.AppointmentRepository;
 import com.project.back_end.repo.PatientRepository;
 import com.project.back_end.repo.DoctorRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +118,7 @@ public class AppointmentService {
         Map<String, String> message = new HashMap<>();
         if (appointmentRepository.findById(id).isPresent()){
             try {
-                String user = tokenService.extractIdentifier(token);
+                String user = tokenService.extractEmail(token);
                 boolean valid = tokenService.validateToken(token, user);
                 Appointment appointment = appointmentRepository.getById(id);
                 if (valid){
@@ -144,10 +146,27 @@ public class AppointmentService {
     //    - It uses `@Transactional` to ensure that database operations are consistent and handled in a single transaction.
     //    - Instruction: Ensure the correct use of transaction boundaries, especially when querying the database for appointments.
     Map<String, Object> getAppointment (String pname, LocalDate date, String token){
-        // TODO
-        // appointmentRepository.findByDoctorIdAndAppointmentTimeBetween(doctorId, start, end);
-        Map<String, Object> appointments = new HashMap<>();
-        return appointments
+        Map<String, Object> appointmentsFound = new HashMap<>();
+
+        // Get all the needed doctor data:
+        String doctorEmail = tokenService.extractEmail(token);
+        Doctor doctor = doctorRepository.findByEmail(doctorEmail);
+        Long doctorId = doctor.getId();
+
+        // Build start and end times:
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = start.plusHours(24);
+
+        List<Appointment> appointments = new ArrayList<>();
+
+        if (pname.isEmpty()){
+            appointments = appointmentRepository.findByDoctorIdAndAppointmentTimeBetween(doctorId, start, end);
+        } else {
+            appointments = appointmentRepository.findByDoctorIdAndPatient_NameContainingIgnoreCaseAndAppointmentTimeBetween(doctorId, pname, start, end);
+        }
+
+        appointmentsFound.put("appointments", appointments);
+        return appointmentsFound;
     }
 
     // 8. **Change Status Method**:
