@@ -57,6 +57,9 @@ public class AppointmentService {
     //    - If the save operation fails, it returns `0`; otherwise, it returns `1`.
     //    - Instruction: Ensure that the method handles any exceptions and returns an appropriate result code.
     private int bookAppointment (Appointment appointment){
+        // Assignment:
+        //  the content does not include a method that retrieves appointments
+        //  by doctor and date, which is necessary for the second criterion
         try {
             appointmentRepository.save(appointment);
             return 1; // successful
@@ -151,6 +154,7 @@ public class AppointmentService {
     //    - This method updates the status of an appointment by changing its value in the database.
     //    - It should be annotated with `@Transactional` to ensure the operation is executed in a single transaction.
     //    - Instruction: Add `@Transactional` before this method to ensure atomicity when updating appointment status.
+
 
 
 }
