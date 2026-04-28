@@ -2,7 +2,10 @@ package com.project.back_end.repo;
 
 import com.project.back_end.models.Appointment;
 
+import com.project.back_end.models.Doctor;
+import com.project.back_end.models.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Parameters: Long doctorId, LocalDateTime start, LocalDateTime end
     //      - It uses a LEFT JOIN to fetch the doctor’s available times along with the appointments.
 
+    // public Appointment(Long id, Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status)
+    // Doctor(Long id, String name, String specialty, String email, String password, String phone, List<String> availableTimes
+    @Query("SELECT app FROM Appointment app " +
+            "LEFT JOIN FETCH app.doctor doc " +
+            "WHERE app.doctor.id = :doctorId " +
+            "AND app.appointmentTime BETWEEN :start AND :end")
     List<Appointment> findByDoctorIdAndAppointmentTimeBetween(Long doctorId, LocalDateTime start, LocalDateTime end);
 
     //    - **findByDoctorIdAndPatient_NameContainingIgnoreCaseAndAppointmentTimeBetween**:
@@ -38,6 +47,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Return type: List<Appointment>
     //      - Parameters: Long doctorId, String patientName, LocalDateTime start, LocalDateTime end
 
+    // public Patient(Long id, String name, String email, String password, String phone, String address)
+    // public Appointment(Long id, Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status)
+    // Doctor(Long id, String name, String specialty, String email, String password, String phone, List<String> availableTimes
+    @Query("SELECT app FROM Appointment app " +
+            "LEFT JOIN FETCH app.doctor doc " +
+            "WHERE app.doctor.id = :doctorId " +
+            "AND app.appointmentTime BETWEEN :start AND :end " +
+            "AND app.patient.name LIKE LOWER(CONCAT('%', :patientName, '%'))")
     List<Appointment> findByDoctorIdAndPatient_NameContainingIgnoreCaseAndAppointmentTimeBetween(Long doctorId, String patientName, LocalDateTime start, LocalDateTime end);
 
     //    - **deleteAllByDoctorId**:
@@ -68,6 +85,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Return type: List<Appointment>
     //      - Parameters: String doctorName, Long patientId
 
+    // public Patient(Long id, String name, String email, String password, String phone, String address)
+    // public Appointment(Long id, Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status)
+    // Doctor(Long id, String name, String specialty, String email, String password, String phone, List<String> availableTimes
+    @Query("SELECT app FROM Appointment app " +
+            "WHERE app.patient.id = :patientId " +
+            "AND app.doctor.name LIKE LOWER(CONCAT('%', :doctorName, '%'))")
     List<Appointment> filterByDoctorNameAndPatientId (String doctorName, Long patientId);
 
     //    - **filterByDoctorNameAndPatientIdAndStatus**:
@@ -75,6 +98,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //      - Return type: List<Appointment>
     //      - Parameters: String doctorName, Long patientId, int status
 
+    // public Patient(Long id, String name, String email, String password, String phone, String address)
+    // public Appointment(Long id, Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status)
+    // Doctor(Long id, String name, String specialty, String email, String password, String phone, List<String> availableTimes
+    @Query("SELECT app FROM Appointment app " +
+            "WHERE app.patient.id = :patientId " +
+            "AND app.status LIKE LOWER(CONCAT('%', :status, '%')) " +
+            "AND app.doctor.name LIKE LOWER(CONCAT('%', :doctorName, '%'))")
     List<Appointment> filterByDoctorNameAndPatientIdAndStatus (String doctorName, Long patientId, int status);
 
     //    - **updateStatus**:
