@@ -153,11 +153,20 @@ public class TokenService {
      * * System.out.println("Extracted Email: " + email);
      */
     String extractIdentifier(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build().parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build().parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+        } catch (JwtException e) {
+            // Log the specific JWT exception
+            System.err.println("JWT Exception: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            // Handle the case where the token is null or empty
+            System.err.println("Token is null or empty: " + e.getMessage());
+        }
+        return null; // or consider returning Optional.empty()
     }
 
     // 6. **validateToken Method**
