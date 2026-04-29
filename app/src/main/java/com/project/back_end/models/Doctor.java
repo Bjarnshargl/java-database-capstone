@@ -6,12 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
 import java.util.List;
 
-// @Entity annotation:
-//    - Marks the class as a JPA entity, meaning it represents a table in the database.
-//    - Required for persistence frameworks (e.g., Hibernate) to map the class to a database table.
 /**
  * The Doctor class represents a medical doctor entity in the system and is mapped to a database table via JPA.
  * It stores essential information such as name, specialty, email, password, phone number, and available time slots.
@@ -19,154 +15,64 @@ import java.util.List;
  */
 @Entity
 public class Doctor {
-    // 1. 'id' field:
-    //    - Type: private Long
-    //    - Description:
-    //      - Represents the unique identifier for each doctor.
-    //      - The @Id annotation marks it as the primary key.
-    //      - The @GeneratedValue(strategy = GenerationType.IDENTITY) annotation auto-generates the ID value when a new record is inserted into the database.
+
+    /**
+     * The unique identifier for each doctor.
+     * Automatically generated as the primary key in the database.
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto generated ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 2. 'name' field:
-    //    - Type: private String
-    //    - Description:
-    //      - Represents the doctor's name.
-    //      - The @NotNull annotation ensures that the doctor's name is required.
-    //      - The @Size(min = 3, max = 100) annotation ensures that the name length is between 3 and 100 characters.
-    //      - Provides validation for correct input and user experience.
+    /**
+     * The name of the doctor.
+     * Must be between 3 and 100 characters.
+     */
     @NotNull
-    @Size(min = 3, max = 100) // Avoid silly user inputs
+    @Size(min = 3, max = 100)
     private String name;
 
-    // 3. 'specialty' field:
-    //    - Type: private String
-    //    - Description:
-    //      - Represents the medical specialty of the doctor.
-    //      - The @NotNull annotation ensures that a specialty must be provided.
-    //      - The @Size(min = 3, max = 50) annotation ensures that the specialty name is between 3 and 50 characters long.
+    /**
+     * The medical specialty of the doctor.
+     * Must be between 3 and 100 characters.
+     */
     @NotNull
-    @Size(min = 3, max = 100) // Avoid silly user inputs
-    private String specialty; // the specialization of the doctor
+    @Size(min = 3, max = 100)
+    private String specialty;
 
-    // 4. 'email' field:
-    //    - Type: private String
-    //    - Description:
-    //      - Represents the doctor's email address.
-    //      - The @NotNull annotation ensures that an email address is required.
-    //      - The @Email annotation validates that the email address follows a valid email format (e.g., doctor@example.com).
+    /**
+     * The email address of the doctor.
+     * Must be a valid email format.
+     */
     @NotNull
     @Email
     private String email;
 
-    // 5. 'password' field:
-    //    - Type: private String
-    //    - Description:
-    //      - Represents the doctor's password for login authentication.
-    //      - The @NotNull annotation ensures that a password must be provided.
-    //      - The @Size(min = 6) annotation ensures that the password must be at least 6 characters long.
-    //      - The @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) annotation ensures that the password is not serialized in the response (hidden from the frontend).
+    /**
+     * The password for doctor authentication.
+     * Must be at least 6 characters.
+     * Only writable, not readable in serialized responses.
+     */
     @NotNull
     @Size(min = 6)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    // 6. 'phone' field:
-    //    - Type: private String
-    //    - Description:
-    //      - Represents the doctor's phone number.
-    //      - The @NotNull annotation ensures that a phone number must be provided.
-    //      - The @Pattern(regexp = "^[0-9]{10}$") annotation validates that the phone number must be exactly 10 digits long.
+    /**
+     * The phone number of the doctor.
+     * Must be exactly 10 digits.
+     */
     @NotNull
-    @Pattern(regexp = "^[0-9]{10}$") // check valid phone number
+    @Pattern(regexp = "^[0-9]{10}$")
     private String phone;
 
-    // 7. 'availableTimes' field:
-    //    - Type: private List<String>
-    //    - Description:
-    //      - Represents the available times for the doctor in a list of time slots.
-    //      - Each time slot is represented as a string (e.g., "09:00-10:00", "10:00-11:00").
-    //      - The @ElementCollection annotation ensures that the list of time slots is stored as a separate collection in the database.
+    /**
+     * The list of available time slots for the doctor.
+     * Each time slot is represented as a string (e.g., "09:00-10:00").
+     */
     @ElementCollection
-    private List<String> availableTimes; // available times per doctor
+    private List<String> availableTimes;
 
-    // 8. Getters and Setters:
-    //    - Standard getter and setter methods are provided for all fields: id, name, specialty, email, password, phone, and availableTimes.
-
-    // Returns the ID of the doctor object
-    public Long getId() {
-        return id;
-    }
-
-    // Sets the ID of the doctor object
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    // Returns the name
-    public String getName() {
-        return name;
-    }
-
-    // Sets the name
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // Returns the specialty
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    // Sets the specialty
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
-
-    // Returns the email address
-    public String getEmail() {
-        return email;
-    }
-
-    // Sets the email address
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    // Returns the password
-    public String getPassword() {
-        return password;
-    }
-
-    // Sets the password
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    // Returns the phone number
-    public String getPhone() {
-        return phone;
-    }
-
-    // Sets the phone number
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    // Returns the list of available times
-    public List<String> getAvailableTimes() {
-        return availableTimes;
-    }
-
-    // Sets the list of available times
-    public void setAvailableTimes(List<String> availableTimes) {
-        this.availableTimes = availableTimes;
-    }
-
-    // 9. Constructor(s):
-    //    - A no-argument constructor is implicitly provided by JPA for entity creation.
-    //    - A parameterized constructor can be added as needed to initialize fields.
     /**
      * Constructs a new Doctor with the specified id, name, specialty, email, password, phone number, and available times.
      *
@@ -187,5 +93,116 @@ public class Doctor {
         this.phone = phone;
         this.availableTimes = availableTimes;
     }
-}
 
+    /**
+     * Returns the ID of the doctor.
+     * @return the doctor's ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the ID of the doctor.
+     * @param id the doctor's ID
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Returns the name of the doctor.
+     * @return the doctor's name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name of the doctor.
+     * @param name the doctor's name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Returns the medical specialty of the doctor.
+     * @return the doctor's specialty
+     */
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    /**
+     * Sets the medical specialty of the doctor.
+     * @param specialty the doctor's specialty
+     */
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    /**
+     * Returns the email address of the doctor.
+     * @return the doctor's email address
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the email address of the doctor.
+     * @param email the doctor's email address
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Returns the password of the doctor.
+     * @return the doctor's password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets the password of the doctor.
+     * @param password the doctor's password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Returns the phone number of the doctor.
+     * @return the doctor's phone number
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Sets the phone number of the doctor.
+     * @param phone the doctor's phone number
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
+     * Returns the list of available time slots for the doctor.
+     * @return the doctor's available times
+     */
+    public List<String> getAvailableTimes() {
+        return availableTimes;
+    }
+
+    /**
+     * Sets the list of available time slots for the doctor.
+     * @param availableTimes the doctor's available times
+     */
+    public void setAvailableTimes(List<String> availableTimes) {
+        this.availableTimes = availableTimes;
+    }
+}

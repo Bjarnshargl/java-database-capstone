@@ -73,7 +73,8 @@ public class TokenService {
      * - **Issued At**: The current date and time, indicating when the token was created.
      * - **Expiration**: The date and time when the token will expire, set to 7 days from the issued date.
      *
-     * The token is signed using a secret key to ensure its integrity and authenticity.
+     * The token is signed using a secret key (retrieved from application properties)
+     * to ensure its integrity and authenticity. This key must remain confidential.
      *
      * @param identifier The user's identifier (email) for which the token is generated.
      * @return A compact JWT token as a String.
@@ -101,15 +102,16 @@ public class TokenService {
     }
 
     /**
+     /**
      * Retrieves the HMAC SHA key used for signing and verifying JWT tokens.
      *
-     * This method converts the secret key string (configured in application properties)
-     * into a valid `SecretKey` object using the HMAC SHA algorithm. The secret key
-     * is essential for ensuring the integrity and authenticity of the generated JWT tokens.
+     * This method converts the secret key string (configured in the application properties)
+     * into a valid `SecretKey` object using the HMAC SHA algorithm.
      *
-     * This key is retrieved from the application properties file
-     * (e.g., application.yml or application.properties) and should be securely stored.
-     * It is crucial that this secret is kept confidential and not hard-coded in the source code.
+     * The `jwt.secret` should be defined in your application.properties file as follows:
+     * jwt.secret=mySuperSecretKey
+     *
+     * Ensure this key is kept confidential and is not hard-coded in the source code.
      * @return A `SecretKey` object used for signing and verifying JWT tokens.
      *
      * * Example usage:
@@ -134,10 +136,12 @@ public class TokenService {
      * - Verifies the token's integrity using the signing key to ensure it hasn’t been tampered with.
      * - Parses the token to retrieve the payload, which contains the subject (the user's identifier).
      *
+     * If the token is invalid or cannot be parsed, a JwtException will be thrown.
+     *
      * @param token The JWT token from which the identifier needs to be extracted.
      * @return The user's identifier (email) as a String.
      * @throws JwtException If the token is invalid or cannot be parsed.
-     *
+
      * * Example Usage:
      *  * String email = tokenService.extractIdentifier(token);
      *  * System.out.println("Extracted Email: " + email);
@@ -162,6 +166,14 @@ public class TokenService {
     /**
      * Validates a token for a given user type by extracting the identifier from the token
      * and checking if a corresponding user exists in the repository.
+     *
+     * This method performs the following:
+     * - Extracts the user's identifier from the token.
+     * - Checks if a user with the extracted email exists in the appropriate repository
+     * (Admin, Doctor, or Patient) based on the specified role.
+     * - Returns true if a valid user is found; otherwise, returns false.
+     *
+     * If the token is invalid, the method will gracefully handle the error and return false.
      *
      * @param token the authentication token to validate
      * @param user  the user type ("admin", "doctor", or "patient")
