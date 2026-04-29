@@ -6,6 +6,7 @@ import com.project.back_end.models.Doctor;
 import com.project.back_end.repo.DoctorRepository;
 import com.project.back_end.repo.AppointmentRepository;
 import com.project.back_end.repo.PatientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,7 @@ public class DoctorService {
     //    - Retrieves the available time slots for a specific doctor on a particular date and filters out already booked slots.
     //    - The method fetches all appointments for the doctor on the given date and calculates the availability by comparing against booked slots.
     //    - Instruction: Ensure that the time slots are properly formatted and the available slots are correctly filtered.
+    @Transactional
     List<String> getDoctorAvailability(Long doctorId, LocalDate date) {
         // Find doctor by ID
         Optional<Doctor> doctorOpt = doctorRepository.findById(doctorId);
@@ -169,30 +171,44 @@ public class DoctorService {
     //    - Validates a doctor's login by checking if the email and password match an existing doctor record.
     //    - It generates a token for the doctor if the login is successful, otherwise returns an error message.
     //    - Instruction: Make sure to handle invalid login attempts and password mismatches properly with error responses.
-    ResponseEntity<Map<String, String>> validateDoctor(Login login){
+
+    ResponseEntity<Map<String, String>> validateDoctor(Login login) {
         Map<String, String> message = new HashMap<>();
         try {
-            // find the right doctor:
-            try {
-                Doctor doctor = doctorRepository.findByEmail(login.getEmail());
-                // check login credentials:
-                if (doctor.getPassword().equals(login.getPassword())){
-                    // The doctor is fully validated:
-                    String token = tokenService.generateToken(login.getEmail());
-                    message.put("message", token);
-                    return ResponseEntity.status(HttpStatus.OK).body(message);
-                }
-            } catch (Exception e) {
-                message.put("message", "Sorry, the doctor was not found.");
+            // find the right doctor
+            Doctor doctor = doctorRepository.findByEmail(login.getEmail());
+
+            if (doctor == null) {
+                message.put("message", "Sorry, doctor not found.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+            }
+
+            if (doctor.getName() == null){
+                message.put("message", "Sorry, doctor's name not found.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+            }
+
+            if (doctor.getEmail() == null){
+                message.put("message", "Sorry, doctor's mail address not found.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+            }
+
+            // check login credentials
+            if (doctor.getPassword().equals(login.getPassword())) {
+                // The doctor is fully validated
+                String token = tokenService.generateToken(login.getEmail());
+                message.put("message", token);
+                return ResponseEntity.status(HttpStatus.OK).body(message);
+            } else {
+                // Password is incorrect
+                message.put("message", "Sorry, the password is not correct.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
             }
         } catch (Exception e) {
-            // The password is wrong because the email was already validated:
-            message.put("message", "Sorry, the password is not correct.");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+            // Handle unexpected errors
+            message.put("message", "An unexpected error occurred.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
-        message.put("message", "Sorry, password or email are incorrect.");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
     // 10. **findDoctorByName Method**:
