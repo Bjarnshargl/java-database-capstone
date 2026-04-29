@@ -154,8 +154,13 @@ public class AppointmentService {
         Map<String, Object> appointmentsFound = new HashMap<>();
 
         // Get all the needed doctor data:
-        String doctorEmail = tokenService.extractEmail(token);
+        String doctorEmail = tokenService.extractIdentifier(token);
         Doctor doctor = doctorRepository.findByEmail(doctorEmail);
+
+        if (doctor == null) {
+            throw new IllegalArgumentException("Doctor not found");
+        }
+
         Long doctorId = doctor.getId();
 
         // Build start and end times:
@@ -165,9 +170,15 @@ public class AppointmentService {
         List<Appointment> appointments = new ArrayList<>();
 
         if (pname.isEmpty()){
+            // the patient filter is optional, if there's no patient's name the filter works for a specific doctor on a particular day
             appointments = appointmentRepository.findByDoctorIdAndAppointmentTimeBetween(doctorId, start, end);
         } else {
+            // If the optional patient name is given, the filtering is enhanced, it additionally filters filtered by the patient's name
             appointments = appointmentRepository.findByDoctorIdAndPatient_NameContainingIgnoreCaseAndAppointmentTimeBetween(doctorId, pname, start, end);
+        }
+
+        if (appointments.isEmpty()) {
+            appointmentsFound.put("message", "No appointments found for the given criteria.");
         }
 
         appointmentsFound.put("appointments", appointments);

@@ -13,6 +13,12 @@ import jakarta.validation.constraints.Size;
 // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
 //    - Required for persistence frameworks (e.g., Hibernate) to map the class to a database table.
+
+/**
+ * The Patient class represents a patient entity in the system and is mapped to a database table using JPA.
+ * It contains all relevant patient information such as name, email, password, phone number, and address.
+ * The class provides field validations and standard getter and setter methods for accessing and modifying its attributes.
+ */
 @Entity
 public class Patient {
     // 1. 'id' field:
@@ -131,6 +137,17 @@ public class Patient {
     // 9. Constructor(s):
     //    - A no-argument constructor is implicitly provided by JPA for entity creation.
     //    - A parameterized constructor can be added as needed to initialize fields.
+
+    /**
+     * Constructs a new Patient with the specified id, name, email, password, phone number, and address.
+     *
+     * @param id        the unique identifier of the patient
+     * @param name      the name of the patient
+     * @param email     the email address of the patient
+     * @param password  the password of the patient
+     * @param phone     the phone number of the patient
+     * @param address   the address of the patient
+     */
     public Patient(Long id, String name, String email, String password, String phone, String address) {
         this.id = id;
         this.name = name;
