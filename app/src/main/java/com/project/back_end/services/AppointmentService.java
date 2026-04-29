@@ -7,6 +7,7 @@ import com.project.back_end.models.Doctor;
 import com.project.back_end.repo.AppointmentRepository;
 import com.project.back_end.repo.PatientRepository;
 import com.project.back_end.repo.DoctorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,7 @@ public class AppointmentService {
     //    - Responsible for saving the new appointment to the database.
     //    - If the save operation fails, it returns `0`; otherwise, it returns `1`.
     //    - Instruction: Ensure that the method handles any exceptions and returns an appropriate result code.
+    @Transactional
     private int bookAppointment (Appointment appointment){
         // Assignment:
         //  the content does not include a method that retrieves appointments
@@ -76,6 +78,7 @@ public class AppointmentService {
     //    - It validates whether the patient ID matches, checks if the appointment is available for updating, and ensures that the doctor is available at the specified time.
     //    - If the update is successful, it saves the appointment; otherwise, it returns an appropriate error message.
     //    - Instruction: Ensure proper validation and error handling is included for appointment updates.
+   @Transactional
     private ResponseEntity<Map<String, String>> updateAppointment (Appointment appointment){
         Map<String, String> message = new HashMap<>();
         if (appointmentRepository.findById(appointment.getId()).isPresent() &&
@@ -114,6 +117,7 @@ public class AppointmentService {
     //    - This method cancels an appointment by deleting it from the database.
     //    - It ensures the patient who owns the appointment is trying to cancel it and handles possible errors.
     //    - Instruction: Make sure that the method checks for the patient ID match before deleting the appointment.
+    @Transactional
     ResponseEntity<Map<String, String>> cancelAppointment (long id, String token){
         Map<String, String> message = new HashMap<>();
         if (appointmentRepository.findById(id).isPresent()){
@@ -169,9 +173,27 @@ public class AppointmentService {
         return appointmentsFound;
     }
 
-    ArrayList<Appointment> getAppointmentsByDoctorAndDate(Long doctorId, LocalDate date) {
-        ArrayList<Appointment> appointments = new ArrayList<>();
-        // Logik zum Füllen der Liste
+    /**
+     * During the capstone assignment the AI wanted me to code a sort of "getAppointmentsByDoctorAndDate" method and here it is.
+     * The appointments method for finding doctor appointments works with a start and an end time.
+     * That's no problem, the code below covers the whole day:
+     * @param doctorId the doctor ID as long value
+     * @param date the date in LocalDate format
+     * @return List<Appointment>
+     */
+    List<Appointment> getAppointmentsByDoctorAndDate(Long doctorId, LocalDate date) {
+
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = start.plusHours(24);
+
+        List<Appointment> appointments = new ArrayList<>();
+
+        try {
+            appointments = appointmentRepository.findByDoctorIdAndAppointmentTimeBetween(doctorId, start, end);
+        } catch (Exception e) {
+            return appointments;
+        }
+
         return appointments;
     }
 
@@ -179,7 +201,5 @@ public class AppointmentService {
     //    - This method updates the status of an appointment by changing its value in the database.
     //    - It should be annotated with `@Transactional` to ensure the operation is executed in a single transaction.
     //    - Instruction: Add `@Transactional` before this method to ensure atomicity when updating appointment status.
-
-
 
 }
