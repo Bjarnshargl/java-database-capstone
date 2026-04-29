@@ -77,6 +77,11 @@ public class TokenService {
      *
      * @param identifier The user's identifier (email) for which the token is generated.
      * @return A compact JWT token as a String.
+     *
+     * * Example usage:
+     *  * String token = tokenService.generateToken("user@example.com");
+     *  * System.out.println("Generated Token: " + token);
+     *
      */
     String generateToken (String identifier){
 
@@ -106,6 +111,11 @@ public class TokenService {
      * (e.g., application.yml or application.properties) and should be securely stored.
      * It is crucial that this secret is kept confidential and not hard-coded in the source code.
      * @return A `SecretKey` object used for signing and verifying JWT tokens.
+     *
+     * * Example usage:
+     *  * SecretKey signingKey = tokenService.getSigningKey();
+     *  * System.out.println("Signing Key: " + signingKey);
+     *
      */
     SecretKey getSigningKey (){
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
@@ -127,6 +137,10 @@ public class TokenService {
      * @param token The JWT token from which the identifier needs to be extracted.
      * @return The user's identifier (email) as a String.
      * @throws JwtException If the token is invalid or cannot be parsed.
+     *
+     * * Example Usage:
+     *  * String email = tokenService.extractIdentifier(token);
+     *  * System.out.println("Extracted Email: " + email);
      */
     String extractIdentifier (String token){
         return Jwts.parser()
@@ -152,6 +166,10 @@ public class TokenService {
      * @param token the authentication token to validate
      * @param user  the user type ("admin", "doctor", or "patient")
      * @return true if the token is valid for the specified user type; false otherwise
+     *
+     * * Example Usage:
+     *  * boolean isValid = tokenService.validateToken(token, "doctor");
+     *  * System.out.println("Is Token Valid: " + isValid);
      */
     boolean validateToken(String token, String user) {
         String subject = extractIdentifier(token);

@@ -12,6 +12,11 @@ import java.util.List;
 // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
 //    - Required for persistence frameworks (e.g., Hibernate) to map the class to a database table.
+/**
+ * The Doctor class represents a medical doctor entity in the system and is mapped to a database table via JPA.
+ * It stores essential information such as name, specialty, email, password, phone number, and available time slots.
+ * Field validations ensure data integrity, and standard getter and setter methods provide access to the attributes.
+ */
 @Entity
 public class Doctor {
     // 1. 'id' field:
@@ -162,6 +167,17 @@ public class Doctor {
     // 9. Constructor(s):
     //    - A no-argument constructor is implicitly provided by JPA for entity creation.
     //    - A parameterized constructor can be added as needed to initialize fields.
+    /**
+     * Constructs a new Doctor with the specified id, name, specialty, email, password, phone number, and available times.
+     *
+     * @param id             the unique identifier of the doctor
+     * @param name           the name of the doctor
+     * @param specialty      the medical specialty of the doctor
+     * @param email          the email address of the doctor
+     * @param password       the password for authentication
+     * @param phone          the phone number of the doctor
+     * @param availableTimes the list of available time slots for the doctor
+     */
     public Doctor(Long id, String name, String specialty, String email, String password, String phone, List<String> availableTimes) {
         this.id = id;
         this.name = name;
