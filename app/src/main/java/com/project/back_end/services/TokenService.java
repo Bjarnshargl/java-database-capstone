@@ -108,7 +108,9 @@ public class TokenService {
      * <p>
      * This method converts the secret key string (configured in the application properties)
      * into a valid `SecretKey` object using the HMAC SHA algorithm.
-     * This key is then used in the `generateToken` method to sign the JWT, ensuring its integrity and authenticity.
+     * The key is automatically populated from the `jwt.secret` property during
+     * the initialization of the TokenService component. This ensures that the key
+     * is securely managed and not hard-coded in the source code.
      * <p>
      * The `jwt.secret` should be defined in your application.properties file as follows:
      * jwt.secret=mySuperSecretKey
