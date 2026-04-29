@@ -18,6 +18,12 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * The TokenService class provides functionality for generating, validating, and parsing JWT tokens
+ * for different user roles within the application. It manages token creation, extracts user identifiers,
+ * and ensures secure authentication and authorization by checking user existence in the corresponding repositories.
+ * This service is a Spring component and interacts with Admin, Doctor, and Patient repositories for role-based token validation.
+ */
 @Component
 public class TokenService {
     // 1. **@Component Annotation**
@@ -91,8 +97,22 @@ public class TokenService {
     // - If the role or user does not exist, it returns false, indicating the token is invalid.
     // - The method gracefully handles any errors by returning false if the token is invalid or an exception occurs.
     // This ensures secure access control based on the user's role and their existence in the system.
+    /**
+     * Validates a token for a given user type by extracting the identifier from the token
+     * and checking if a corresponding user exists in the repository.
+     *
+     * @param token the authentication token to validate
+     * @param user  the user type ("admin", "doctor", or "patient")
+     * @return true if the token is valid for the specified user type; false otherwise
+     */
     boolean validateToken(String token, String user) {
         String subject = extractIdentifier(token);
+
+        // Worst case, if the token can not be found:
+        if (subject.isEmpty()){
+            return false;
+        }
+
         try {
             switch (user) {
                 case "admin":
@@ -105,11 +125,11 @@ public class TokenService {
                     Patient patient = patientRepository.findByEmail(subject);
                     return patient != null;
                 default:
+                    // if the given user type was none of the expected:
                     return false;
             }
         } catch (Exception e) {
             return false;
         }
     }
-
 }
