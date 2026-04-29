@@ -173,12 +173,18 @@ public class DoctorService {
         Map<String, String> message = new HashMap<>();
         try {
             // find the right doctor:
-            Doctor doctor = doctorRepository.findByEmail(login.getEmail());
-            // check login credentials:
-            if (doctor.getPassword().equals(login.getPassword())){
-                // The doctor is fully validated:
-                message.put("message", "Email and password are correct.");
-                return ResponseEntity.status(HttpStatus.OK).body(message);
+            try {
+                Doctor doctor = doctorRepository.findByEmail(login.getEmail());
+                // check login credentials:
+                if (doctor.getPassword().equals(login.getPassword())){
+                    // The doctor is fully validated:
+                    String token = tokenService.generateToken(login.getEmail());
+                    message.put("message", token);
+                    return ResponseEntity.status(HttpStatus.OK).body(message);
+                }
+            } catch (Exception e) {
+                message.put("message", "Sorry, the doctor was not found.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
             }
         } catch (Exception e) {
             // The password is wrong because the email was already validated:
