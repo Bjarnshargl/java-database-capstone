@@ -96,12 +96,15 @@ public class TokenService {
     }
 
     /**
-     * Retrieves the HMAC SHA key used for signing JWT tokens.
+     * Retrieves the HMAC SHA key used for signing and verifying JWT tokens.
      *
      * This method converts the secret key string (configured in application properties)
      * into a valid `SecretKey` object using the HMAC SHA algorithm. The secret key
      * is essential for ensuring the integrity and authenticity of the generated JWT tokens.
      *
+     * This key is retrieved from the application properties file
+     * (e.g., application.yml or application.properties) and should be securely stored.
+     * It is crucial that this secret is kept confidential and not hard-coded in the source code.
      * @return A `SecretKey` object used for signing and verifying JWT tokens.
      */
     SecretKey getSigningKey (){
