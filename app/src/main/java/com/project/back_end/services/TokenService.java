@@ -24,6 +24,9 @@ import java.util.Date;
  * for different user roles within the application. It manages token creation, extracts user identifiers,
  * and ensures secure authentication and authorization by checking user existence in the corresponding repositories.
  * This service is a Spring component and interacts with Admin, Doctor, and Patient repositories for role-based token validation.
+ * <p>
+ * All JWT signing and verification operations use the secret key, which is securely
+ * retrieved from application properties via the getSigningKey() method.
  */
 @Component
 public class TokenService {
