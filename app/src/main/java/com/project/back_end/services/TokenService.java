@@ -75,7 +75,8 @@ public class TokenService {
      * - **Expiration**: The date and time when the token will expire, set to 7 days from the issued date.
      * <p>
      * The token is signed using a secret key (retrieved from application properties)
-     * to ensure its integrity and authenticity. This key must remain confidential.
+     * to ensure its integrity and authenticity. This key must remain confidential
+     * and is derived from the `getSigningKey()` method.
      *
      * @param identifier The user's identifier (email) for which the token is generated.
      * @return A compact JWT token as a String.
@@ -107,6 +108,7 @@ public class TokenService {
      * <p>
      * This method converts the secret key string (configured in the application properties)
      * into a valid `SecretKey` object using the HMAC SHA algorithm.
+     * This key is then used in the `generateToken` method to sign the JWT, ensuring its integrity and authenticity.
      * <p>
      * The `jwt.secret` should be defined in your application.properties file as follows:
      * jwt.secret=mySuperSecretKey
@@ -135,7 +137,7 @@ public class TokenService {
      * Extracts the user's identifier (usually an email) from a given JWT token.
      * <p>
      * This method performs the following steps:
-     * - Verifies the token's integrity using the signing key to ensure it hasn’t been tampered with.
+     * - Verifies the token's integrity using the signing key (from `getSigningKey()`) to ensure it hasn’t been tampered with.
      * - Parses the token to retrieve the payload, which contains the subject (the user's identifier).
      * <p>
      * If the token is invalid or cannot be parsed, a JwtException will be thrown.
@@ -143,10 +145,10 @@ public class TokenService {
      * @param token The JWT token from which the identifier needs to be extracted.
      * @return The user's identifier (email) as a String.
      * @throws JwtException If the token is invalid or cannot be parsed.
-     *                      <p>
-     *                      * Example Usage:
-     *                      * String email = tokenService.extractIdentifier(token);
-     *                      * System.out.println("Extracted Email: " + email);
+     * <p>
+     * * Example Usage:
+     * * String email = tokenService.extractIdentifier(token);
+     * * System.out.println("Extracted Email: " + email);
      */
     String extractIdentifier(String token) {
         return Jwts.parser()
