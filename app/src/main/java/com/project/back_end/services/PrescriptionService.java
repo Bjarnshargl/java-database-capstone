@@ -35,7 +35,7 @@ public class PrescriptionService {
     //    - If a prescription exists, it returns a `400 Bad Request` with a message stating the prescription already exists.
     //    - If no prescription exists, it saves the new prescription and returns a `201 Created` status with a success message.
     //    - Instruction: Handle errors by providing appropriate status codes and messages, ensuring that multiple prescriptions for the same appointment are not saved.
-    ResponseEntity<Map<String, String>> savePrescription (Prescription prescription){
+    public ResponseEntity<Map<String, String>> savePrescription(Prescription prescription){
         Map<String, String> response = new HashMap<>();
         try {
             prescriptionRepository.save(prescription);
@@ -52,7 +52,7 @@ public class PrescriptionService {
     //    - If a prescription is found, it returns it within a map wrapped in a `200 OK` status.
     //    - If there is an error while fetching the prescription, it logs the error and returns a `500 Internal Server Error` status with an error message.
     //    - Instruction: Ensure that this method handles edge cases, such as no prescriptions found for the given appointment, by returning meaningful responses.
-    ResponseEntity<Map<String, Object>> getPrescription(Long appointmentId) {
+    public ResponseEntity<Map<String, Object>> getPrescription(Long appointmentId) {
         Map<String, Object> response = new HashMap<>();
         try {
             List<Prescription> prescriptions = prescriptionRepository.findByAppointmentId(appointmentId);

@@ -124,7 +124,7 @@ public class DoctorController {
                 }
             }
         } catch (Exception e) {
-            response.put("Internal error", "Some internal error occurred\"");
+            response.put("Internal error", "Some internal error occurred");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
