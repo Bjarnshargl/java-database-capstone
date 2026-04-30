@@ -17,7 +17,7 @@ import java.util.Map;
  * REST controller for doctor-related functionalities.
  * <p>
  * Provides endpoints for:
- *   Querying doctor availability<
+ *   Querying doctor availability
  *   Retrieving, adding, updating, and deleting doctors
  *   Doctor login
  *   Filtering doctors by name, time, and specialty
