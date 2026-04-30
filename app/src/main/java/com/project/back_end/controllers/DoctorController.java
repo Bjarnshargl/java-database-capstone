@@ -13,6 +13,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST controller for doctor-related functionalities.
+ * <p>
+ * Provides endpoints for:
+ * <ul>
+ *   <li>Querying doctor availability</li>
+ *   <li>Retrieving, adding, updating, and deleting doctors</li>
+ *   <li>Doctor login</li>
+ *   <li>Filtering doctors by name, time, and specialty</li>
+ * </ul>
+ * The controller uses token-based authorization and delegates business logic to DoctorService and Service.
+ * All endpoints are prefixed with a configurable API path.
+ */
 @RestController
 @RequestMapping("${api.path}" + "doctor")
 public class DoctorController {
@@ -30,7 +43,7 @@ public class DoctorController {
     Service service;
     DoctorService doctorService;
 
-    /*
+    /**
      * Define the `getDoctorAvailability` Method:
      *   - Handles HTTP GET requests to check a specific doctor’s availability on a given date.
      *   - Requires `user` type, `doctorId`, `date`, and `token` as path variables.
@@ -59,7 +72,7 @@ public class DoctorController {
         }
     }
 
-    /*
+    /**
      * 4. Define the `getDoctor` Method:
      *    - Handles HTTP GET requests to retrieve a list of all doctors.
      *    - Returns the list within a response map under the key `"doctors"` with HTTP 200 OK status.
@@ -76,7 +89,7 @@ public class DoctorController {
         }
     }
 
-    /*
+    /**
      * Define the `saveDoctor` Method:
      * - Handles HTTP POST requests to register a new doctor.
      * - Accepts a validated `Doctor` object in the request body and a token for authorization.
@@ -117,7 +130,7 @@ public class DoctorController {
         }
     }
 
-    /*
+    /**
      * Define the `doctorLogin` Method:
      * - Handles HTTP POST requests for doctor login.
      * - Accepts a validated `Login` DTO containing credentials.
@@ -140,7 +153,7 @@ public class DoctorController {
         }
     }
 
-    /*
+    /**
      * Define the `updateDoctor` Method:
      * - Handles HTTP PUT requests to update an existing doctor's information.
      * - Accepts a validated `Doctor` object and a token for authorization.
@@ -171,7 +184,7 @@ public class DoctorController {
         }
     }
 
-    /*
+    /**
      * Define the `deleteDoctor` Method:
      * - Handles HTTP DELETE requests to remove a doctor by ID.
      * - Requires both doctor ID and an admin token as path variables.
@@ -201,7 +214,7 @@ public class DoctorController {
         }
     }
 
-    /*
+    /**
      * Define the `filter` Method:
      * - Handles HTTP GET requests to filter doctors based on name, time, and specialty.
      * - Accepts `name`, `time`, and `speciality` as path variables.
