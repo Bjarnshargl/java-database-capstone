@@ -17,11 +17,11 @@ import java.util.Map;
  * REST controller for doctor-related functionalities.
  * <p>
  * Provides endpoints for:
- *   Querying doctor availability</li>
- *   Retrieving, adding, updating, and deleting doctors</li>
- *   Doctor login</li>
- *   Filtering doctors by name, time, and specialty</li>
- *
+ *   Querying doctor availability<
+ *   Retrieving, adding, updating, and deleting doctors
+ *   Doctor login
+ *   Filtering doctors by name, time, and specialty
+ * <p>
  * The controller uses token-based authorization and delegates business logic to DoctorService and Service.
  * All endpoints are prefixed with a configurable API path.
  */
